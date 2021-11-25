@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useContext } from 'react';
 import './App.css';
+import '@rocket.chat/icons/dist/rocketchat.css'
+import Login from './Login';
+import Reminders from './RemindersList'
+import Profile from './Profile'
 
-function App() {
+import {SocketContext, socket} from "./contexts/socket/SocketContext";
+import {LoggedInUserContext} from "./contexts/user/LoggedInUser";
+
+export default function App() {
+  //const loggedInUser = useContext(LoggedInUserContext);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+      <SocketContext.Provider value={socket}>
+        <Reminders/>
+        </SocketContext.Provider>
       </header>
     </div>
   );
 }
-
-export default App;
