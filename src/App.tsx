@@ -6,17 +6,18 @@ import Reminders from './RemindersList'
 import Profile from './Profile'
 
 import {SocketContext, socket} from "./contexts/socket/SocketContext";
-import {LoggedInUserContext} from "./contexts/user/LoggedInUser";
+import {UserContext} from "./contexts/user/LoggedInUser";
 
 export default function App() {
   //const loggedInUser = useContext(LoggedInUserContext);
+  const user = useContext(UserContext);
 
   return (
     <div className="App">
       <header>
-      <SocketContext.Provider value={socket}>
-        <Reminders/>
-        </SocketContext.Provider>
+      <UserContext.Provider value={user}>
+        <Login  />
+        </UserContext.Provider>
       </header>
     </div>
   );

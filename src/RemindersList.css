@@ -47,3 +47,7 @@ Button {
     padding-top: 5px;
     margin-left: auto;
 }
+
+.icon-delete {
+    color: red;
+}

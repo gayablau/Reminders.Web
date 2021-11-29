@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import './Login.css';
 import { Tile, InputBox, Button, Icon } from "@rocket.chat/fuselage";
 import '@rocket.chat/icons/dist/rocketchat.css'
-import logo from './logo.png';
+import logo from './logo.jpg';
 import {SocketContext} from "./contexts/socket/SocketContext";
 
 export default function Login() {

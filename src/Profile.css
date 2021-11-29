@@ -5,7 +5,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, 22%);
+    transform: translate(-50%, 60%);
   }
   
   .profile-form {
@@ -16,3 +16,10 @@
   .profile-submit, .profile-header, .profile-input, .input-box {
     margin-bottom: 5px;
   }
+
+  .icon-back {
+    -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  display: flex;
+  align-items: flex-start;
+}

@@ -3,6 +3,7 @@ import './RemindersList.css';
 import { Tile, InputBox, Button, Icon, Table, Modal, ButtonGroup } from "@rocket.chat/fuselage";
 import '@rocket.chat/icons/dist/rocketchat.css'
 import { SocketContext } from "./contexts/socket/SocketContext";
+import { UserContext } from "./contexts/user/LoggedInUser";
 
 
 type ReminderDetailsProps = {
@@ -11,6 +12,7 @@ type ReminderDetailsProps = {
 }
 
 export default function Reminders() {
+    const user = useContext(UserContext);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const setModalIsOpenToTrue = () => {
@@ -23,10 +25,9 @@ export default function Reminders() {
 
     return (
         <>
-
             <div className="reminders-list">
                 <Tile>
-                    <h2>שלום</h2>
+                    <h2>שלום {user[1]}</h2>
                     <div className="reminders-table">
                         <RemindersTable />
                     </div>
@@ -60,112 +61,100 @@ function RemindersTable() {
                 </Table.Head>
                 <Table.Body>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
+                        <Table.Cell align='center'> 
+                         <div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
-                        <Table.Cell align='center'>6</Table.Cell>
-                        <Table.Cell align='center'>24</Table.Cell>
-                        <Table.Cell align='center'>4</Table.Cell>
-                        <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
-                        <Table.Cell align='center'>6</Table.Cell>
-                        <Table.Cell align='center'>24</Table.Cell>
-                        <Table.Cell align='center'>4</Table.Cell>
-                        <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
-                        <Table.Cell align='center'>6</Table.Cell>
-                        <Table.Cell align='center'>24</Table.Cell>
-                        <Table.Cell align='center'>4</Table.Cell>
-                        <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
-                        <Table.Cell align='center'>6</Table.Cell>
-                        <Table.Cell align='center'>24</Table.Cell>
-                        <Table.Cell align='center'>4</Table.Cell>
-                        <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell align='center'>159</Table.Cell>
-                        <Table.Cell align='center'>6</Table.Cell>
-                        <Table.Cell align='center'>24</Table.Cell>
-                        <Table.Cell align='center'>4</Table.Cell>
-                        <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell align='center'>237</Table.Cell>
+                        <Table.Cell align='center'><div className="icon-delete">
+                            <Icon name="trash"></Icon>
+                        </div></Table.Cell>
                         <Table.Cell align='center'>9</Table.Cell>
                         <Table.Cell align='center'>37</Table.Cell>
                         <Table.Cell align='center'>4.3</Table.Cell>
@@ -184,11 +173,11 @@ function ReminderDetails(props: ReminderDetailsProps) {
             <Modal>
                 <div className="reminder-details">
                     <div className="modal-close-button">
-                    <Modal.Close onClick={props.handleClose} />
+                        <Modal.Close onClick={props.handleClose} />
                     </div>
                     <Modal.Header>
                         <div className="modal-title">
-                        <Modal.Title>הוסף התראה</Modal.Title>
+                            <Modal.Title>הוסף התראה</Modal.Title>
                         </div>
                     </Modal.Header>
                     <Modal.Content>

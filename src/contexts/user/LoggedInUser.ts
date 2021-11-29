@@ -1,5 +1,5 @@
-import React from 'react';
+import { createContext } from 'react';
 
-type User = [String, String]
-let connectedUser : User = ['', '']
-export const LoggedInUserContext = React.createContext(connectedUser);
+type User = [userId : String, username : String]
+let connectedUser : User = ["123a", "גאיה"]
+export const UserContext = createContext(connectedUser);
