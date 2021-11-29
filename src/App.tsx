@@ -5,8 +5,16 @@ import Login from './Login';
 import Reminders from './RemindersList'
 import Profile from './Profile'
 
-import {SocketContext, socket} from "./contexts/socket/SocketContext";
-import {UserContext} from "./contexts/user/LoggedInUser";
+import { SocketContext, socket } from "./contexts/socket/SocketContext";
+import { UserContext } from "./contexts/user/LoggedInUser";
+
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 export default function App() {
   //const loggedInUser = useContext(LoggedInUserContext);
@@ -15,9 +23,13 @@ export default function App() {
   return (
     <div className="App">
       <header>
-      <UserContext.Provider value={user}>
-        <Login  />
-        </UserContext.Provider>
+        <Router>
+          <UserContext.Provider value={user}>
+              <Route exact path="/" component={Login} />
+              <Route path="/reminders" component={Reminders} />
+              <Route path="/profile" component={Profile} />
+          </UserContext.Provider>
+        </Router>
       </header>
     </div>
   );

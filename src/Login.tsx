@@ -5,7 +5,18 @@ import '@rocket.chat/icons/dist/rocketchat.css'
 import logo from './logo.jpg';
 import {SocketContext} from "./contexts/socket/SocketContext";
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+  withRouter
+} from "react-router-dom";
+
 export default function Login() {
+  const history = useHistory();
+  const goToReminders = () => history.push('/reminders');
   // const socket = useContext(SocketContext);
 
   // function TryToConnect() {
@@ -23,7 +34,7 @@ export default function Login() {
           <div className="input">
             <InputBox className="input-box" placeholder='סיסמא' type='password' />
           </div>
-          <Button primary>התחבר</Button>
+          <Button onClick={goToReminders} primary>התחבר</Button>
         </form>
       </Tile>
     </div>

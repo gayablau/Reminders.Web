@@ -5,6 +5,14 @@ import '@rocket.chat/icons/dist/rocketchat.css'
 import { SocketContext } from "./contexts/socket/SocketContext";
 import { UserContext } from "./contexts/user/LoggedInUser";
 
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useHistory
+} from "react-router-dom";
+import Profile from './Profile';
 
 type ReminderDetailsProps = {
     handleClose: () => void
@@ -23,17 +31,24 @@ export default function Reminders() {
         setModalIsOpen(false)
     }
 
+    const history = useHistory();
+    const goToProfile = () => history.push('/profile');
+    const goToLogin = () => history.push('/');
+
     return (
         <>
             <div className="reminders-list">
                 <Tile>
-                    <h2>שלום {user[1]}</h2>
+                    <div className="tile-header">
+                    <h2 onClick={goToProfile} >{user[1]}</h2>
+                    <h2>שלום</h2>
+                    </div>
                     <div className="reminders-table">
                         <RemindersTable />
                     </div>
                     <div className="buttons">
                         <Button onClick={setModalIsOpenToTrue} primary>הוסף התראה</Button>
-                        <Button primary danger>התנתק</Button>
+                        <Button onClick={goToLogin} primary danger>התנתק</Button>
                     </div>
                 </Tile>
             </div>
@@ -142,10 +157,10 @@ function RemindersTable() {
                         <Table.Cell is='th' scope='row'>Frozen yoghurt</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.Cell align='center'> 
-                         <div className="icon-delete">
-                            <Icon name="trash"></Icon>
-                        </div></Table.Cell>
+                        <Table.Cell align='center'>
+                            <div className="icon-delete">
+                                <Icon name="trash"></Icon>
+                            </div></Table.Cell>
                         <Table.Cell align='center'>6</Table.Cell>
                         <Table.Cell align='center'>24</Table.Cell>
                         <Table.Cell align='center'>4</Table.Cell>

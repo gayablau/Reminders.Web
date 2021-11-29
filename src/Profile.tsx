@@ -3,13 +3,16 @@ import './Profile.css';
 import { Tile, InputBox, Button, Icon } from "@rocket.chat/fuselage";
 import '@rocket.chat/icons/dist/rocketchat.css'
 import { SocketContext } from "./contexts/socket/SocketContext";
+import { useHistory } from 'react-router-dom';
 
 export default function Profile() {
+  const history = useHistory();
+  const handleBack = () => history.push('/reminders');
   return (
     <div className="profile">
       <Tile>
         <div className="icon-back">
-          <Icon name="arrow-back"></Icon>
+          <Icon name="arrow-back" onClick={handleBack}></Icon>
         </div>
         <form className="profile-form">
           <div className="profile-header">

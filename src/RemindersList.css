@@ -7,14 +7,14 @@ body {
   height: 100vh;
   top: 0;
   left: 0;
-  transform: translate(calc(50vw - 50%), calc(50vh - 40%));
+  transform: translate(calc(50vw - 50%), calc(50vh - 45%));
 }
 
 .reminders-list {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, 22%);
+    transform: translate(-50%, 15%);
 }
 
 .reminder-details {
@@ -50,4 +50,14 @@ Button {
 
 .icon-delete {
     color: red;
+}
+
+.tile-header {
+    display: flex;
+    justify-content: center;
+    flex-direction: row; 
+}
+
+h2 {
+padding: 3px;
 }
