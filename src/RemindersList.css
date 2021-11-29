@@ -36,3 +36,14 @@ Button {
 .reminders-table {
     margin: 20px;
 }
+
+.wrap-table {
+    height: 250px;
+    overflow: auto 
+}
+
+.modal-close-button {
+    margin-right: 5px;
+    padding-top: 5px;
+    margin-left: auto;
+}
