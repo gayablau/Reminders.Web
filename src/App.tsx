@@ -1,35 +1,48 @@
-import React, { useState, useContext } from 'react';
-import './App.css';
-import '@rocket.chat/icons/dist/rocketchat.css'
-import Login from './Login';
-import Reminders from './RemindersList'
-import Profile from './Profile'
+import React, { useState, useContext, useEffect } from "react";
+import "./App.css";
+import "@rocket.chat/icons/dist/rocketchat.css";
+import Login from "./views/Login/Login";
+import Reminders from "./views/Home/RemindersList";
+import Profile from "./views/Profile/Profile";
+import { useHistory } from "react-router-dom";
 
 import { SocketContext, socket } from "./contexts/socket/SocketContext";
 import { UserContext } from "./contexts/user/LoggedInUser";
+import { User } from "./contexts/user/LoggedInUser";
 
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default function App() {
   //const loggedInUser = useContext(LoggedInUserContext);
-  const user = useContext(UserContext);
+  const {isLoggedIn} = useContext(UserContext);
+  //let connectedUser : User = ["123a", "2גאיה"]
+
+  const history = useHistory();
+
+  // function login(newUser : User) {
+  //   setUser(newUser);
+  // };
+
+  // function logout() {
+  //   setUser(['','']);
+  // };
+
+  useEffect(() => {
+    const goToLogin = () => history.push("/");
+    const goToReminders = () => history.push("/reminders");
+    if (isLoggedIn()) {
+      goToReminders();
+    } else {
+      goToLogin();
+    }
+  }, [isLoggedIn, history]);
 
   return (
     <div className="App">
       <header>
-        <Router>
-          <UserContext.Provider value={user}>
-              <Route exact path="/" component={Login} />
-              <Route path="/reminders" component={Reminders} />
-              <Route path="/profile" component={Profile} />
-          </UserContext.Provider>
-        </Router>
+        <Route exact path="/" component={Login} />
+        <Route path="/reminders" component={Reminders} />
+        <Route path="/profile" component={Profile} />
       </header>
     </div>
   );
