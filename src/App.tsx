@@ -5,6 +5,7 @@ import Login from "./views/Login/Login";
 import Reminders from "./views/Home/RemindersList";
 import Profile from "./views/Profile/Profile";
 import { useHistory } from "react-router-dom";
+import RemindersProvider from "./contexts/reminders/RemindersProvider"
 
 import { SocketContext, socket } from "./contexts/socket/SocketContext";
 import { UserContext } from "./contexts/user/LoggedInUser";
@@ -41,7 +42,9 @@ export default function App() {
     <div className="App">
       <header>
         <Route exact path="/" component={Login} />
+        <RemindersProvider>
         <Route path="/reminders" component={Reminders} />
+        </RemindersProvider>
         <Route path="/profile" component={Profile} />
       </header>
     </div>
