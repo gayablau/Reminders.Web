@@ -1,0 +1,63 @@
+body {
+  position: relative;
+}
+
+.reminder-details-modal {
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  transform: translate(calc(50vw - 50%), calc(50vh - 45%));
+}
+
+.reminders-list {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 15%);
+}
+
+.reminder-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+}
+
+Button {
+  width: fit-content;
+}
+
+.wrap-table {
+  height: 250px;
+  overflow: auto;
+}
+
+.modal-close-button {
+  margin-right: 5px;
+  padding-top: 5px;
+  margin-left: auto;
+}
+
+.icon-delete {
+  color: red;
+}
+
+.tile-header {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+h2 {
+  padding: 3px;
+}
+
+tbody {
+  overflow-y: scroll;
+}
