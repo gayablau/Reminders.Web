@@ -44,8 +44,8 @@ export default function App() {
         <Route exact path="/" component={Login} />
         <RemindersProvider>
         <Route path="/reminders" component={Reminders} />
-        </RemindersProvider>
         <Route path="/profile" component={Profile} />
+        </RemindersProvider>
       </header>
     </div>
   );
