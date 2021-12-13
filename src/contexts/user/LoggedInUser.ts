@@ -6,11 +6,16 @@ type UserContextType = {
   handleLogin: (
     username: string,
     password: string,
-    onSuccess: () => void
+    onSuccess: () => void,
+    onFailure: () => void
   ) => void;
-  isLoggedIn: () => boolean
+  isLoggedIn: () => boolean;
   handleLogout: () => void;
-  handleChangeUsername: (newUsername: string, onSuccess: () => void) => void;
+  handleChangeUsername: (
+    newUsername: string,
+    onSuccess: () => void,
+    onFailure: () => void
+  ) => void;
 };
 let connectedUser: UserContextType = {
   user: { userId: "", username: "" },

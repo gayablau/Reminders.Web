@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-export const useReminderInput = (
-  initialValue: string | number
-): [string | number, (e: React.ChangeEvent<HTMLInputElement>) => void, React.Dispatch<React.SetStateAction<string | number>>] => {
+export const useInput = (
+  initialValue: string
+): [string, (e: React.ChangeEvent<HTMLInputElement>) => void, React.Dispatch<React.SetStateAction<string>>] => {
   const [value, setValue] = useState(initialValue);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -10,4 +10,4 @@ export const useReminderInput = (
   return [value, handleChange, setValue];
 };
 
-export default useReminderInput;
+export default useInput;

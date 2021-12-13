@@ -1,37 +1,17 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import "./RemindersList.css";
-import {
-  Tile,
-  InputBox,
-  Button,
-  Icon,
-  Table,
-  Modal,
-  ButtonGroup,
-  TextInput,
-} from "@rocket.chat/fuselage";
+import { Tile, Button, Box, ButtonGroup } from "@rocket.chat/fuselage";
 import "@rocket.chat/icons/dist/rocketchat.css";
-import { SocketContext } from "../../../src/contexts/socket/SocketContext";
 import { UserContext } from "../../../src/contexts/user/LoggedInUser";
-import {RemindersTable, MemoizedTable} from "./RemindersTable/RemindersTable";
+import { MemoizedTable } from "./RemindersTable/RemindersTable";
 import ReminderDetails from "./ReminderDetails/ReminderDetails";
-import { useModal } from "../../../src/hooks/useModal";
-import { useReminders } from "../../hooks/useReminders";
 import { RemindersContext } from "../../contexts/reminders/RemindersContext";
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-} from "react-router-dom";
-import Profile from "../../views/Profile/Profile";
+import { Link } from "react-router-dom";
 import { Reminder } from "../../Types/ReminderType";
 
 export default function Reminders() {
   const { reminders } = useContext(RemindersContext);
-  const [ modalIsOpen, setModalIsOpen]  = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const { user, handleLogout } = useContext(UserContext);
   const [openedReminder, setOpenedReminder] = useState("");
 
@@ -43,43 +23,37 @@ export default function Reminders() {
     return reminders.find(checkReminderId);
   };
 
-  const history = useHistory();
-  const goToProfile = () => history.push("/profile");
-  const goToLogin = () => history.push("/");
-
   return (
     <>
-      <div className="reminders-list">
-        <Tile borderRadius="1vh">
-          <div className="tile-header">
-            <h2>
-              <Link to="/profile">{user.username}</Link>
-            </h2>
-            <h2>שלום</h2>
-          </div>
-            <MemoizedTable
-              openModal={(reminderId: Reminder["id"]) => {
-                setOpenedReminder(reminderId);
-                setModalIsOpen(true);
-              }}
-            />
-          <div className="buttons">
-            <Button
-              onClick={() => {
-                setOpenedReminder("");
-                setModalIsOpen(true);
-              }}
-              primary
-            >
-              הוסף התראה
-            </Button>
-            <Button onClick={() => handleLogout()} primary danger>
-              התנתק
-            </Button>
-          </div>
-        </Tile>
-      </div>
-      <div className="reminder-details-modal">
+      <Tile borderRadius="1vh" position="absolute" marginBlockStart="10vh">
+        <Box className="tile-header">
+          <h2>
+            <Link to="/profile">{user.username}</Link>
+          </h2>
+          <h2>שלום</h2>
+        </Box>
+        <MemoizedTable
+          openModal={(reminderId: Reminder["id"]) => {
+            setOpenedReminder(reminderId);
+            setModalIsOpen(true);
+          }}
+        />
+        <ButtonGroup align="center">
+          <Button
+            onClick={() => {
+              setOpenedReminder("");
+              setModalIsOpen(true);
+            }}
+            primary
+          >
+            הוסף התראה
+          </Button>
+          <Button onClick={() => handleLogout()} primary danger>
+            התנתק
+          </Button>
+        </ButtonGroup>
+      </Tile>
+      <>
         {modalIsOpen ? (
           <ReminderDetails
             reminder={findReminderById(openedReminder ?? -1)}
@@ -88,7 +62,7 @@ export default function Reminders() {
         ) : (
           <></>
         )}
-      </div>
+      </>
     </>
   );
 }

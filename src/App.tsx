@@ -40,13 +40,13 @@ export default function App() {
 
   return (
     <div className="App">
-      <header>
+      <body>
         <Route exact path="/" component={Login} />
         <RemindersProvider>
         <Route path="/reminders" component={Reminders} />
         <Route path="/profile" component={Profile} />
         </RemindersProvider>
-      </header>
+      </body>
     </div>
   );
 }

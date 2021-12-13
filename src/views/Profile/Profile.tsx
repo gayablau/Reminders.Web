@@ -1,48 +1,56 @@
-import React, { useState, useContext, useEffect } from 'react';
-import './Profile.css';
-import { Tile, InputBox, Button, Icon, TextInput } from "@rocket.chat/fuselage";
-import '@rocket.chat/icons/dist/rocketchat.css'
-import { SocketContext } from "../../contexts/socket/SocketContext";
+import { useContext, useState } from "react";
+import { Tile, Button, Icon, TextInput } from "@rocket.chat/fuselage";
+import "@rocket.chat/icons/dist/rocketchat.css";
 import { UserContext } from "../../contexts/user/LoggedInUser";
-import { useHistory } from 'react-router-dom';
-import useInput from '../../hooks/useUserInput';
+import { useHistory } from "react-router-dom";
+import useInput from "../../hooks/useInput";
+import useProfileValidation from "./useProfileValidation";
 
 export default function Profile() {
-  const { user } = useContext(UserContext)
-  const [username, setUsername] = useInput(user.username)
-  const { handleChangeUsername } = useContext(UserContext)
+  const { user } = useContext(UserContext);
+  const [username, setUsername] = useInput(user.username);
+  const { handleChangeUsername } = useContext(UserContext);
   const history = useHistory();
-  const goToReminders = () => history.push('/reminders');
-  const [valid, setValid] = useState(false);
-
-  useEffect(() => {
-    function handleUserInput() {
-      return username.toString().length > 0;
-    }
-    setValid(handleUserInput);
-  }, [username]);
+  const goToReminders = () => history.push("/reminders");
+  const { profileValid, setUsernameValid } = useProfileValidation(
+    username as string
+  );
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
-    <div className="profile">
-      <Tile borderRadius="1vh">
-        <div className="icon-back">
-          <Icon name="arrow-back" onClick={goToReminders}></Icon>
-        </div>
-        <form className="profile-form">
-          <div className="profile-header">
-            <h1>פרטי משתמש</h1>
-          </div>
-          <div className="profile-input">
-            <TextInput className="input-box" placeholder='שם משתמש' onChange={setUsername} value={username} />
-          </div>
-          <div className="profile-submit">
-            <Button primary disabled={!valid} onClick={() => handleChangeUsername(username, goToReminders)}>שמור</Button>
-          </div>
-        </form>
-      </Tile>
-    </div>
+    <Tile borderRadius="1vh" position="absolute" marginBlockStart="20vh">
+      <Icon
+        display="flex"
+        alignItems="start"
+        style={{ WebkitTransform: "scaleX(-1)" }}
+        transform="scaleX(-1)"
+        name="arrow-back"
+        onClick={goToReminders}
+      ></Icon>
+      <h1>פרטי משתמש</h1>
+      <TextInput
+        className="input-box"
+        placeholder="שם משתמש"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setUsername(e);
+          setUsernameValid(e.target.value);
+        }}
+        value={username}
+      />
+      {errorMessage && <p> {errorMessage} </p>}
+      <Button
+        marginBlockStart="10px"
+        alignSelf="center"
+        primary
+        disabled={!profileValid}
+        onClick={() =>
+          handleChangeUsername(username, goToReminders, () => {
+            setErrorMessage("Error changing username");
+          })
+        }
+      >
+        שמור
+      </Button>
+    </Tile>
   );
 }
-
-
-

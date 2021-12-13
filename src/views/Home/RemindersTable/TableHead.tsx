@@ -1,24 +1,6 @@
-import React, { useState, useContext } from "react";
 import "../RemindersList.css";
-import {
-  Tile,
-  InputBox,
-  Button,
-  Icon,
-  Table,
-  Modal,
-  ButtonGroup,
-  TextInput,
-} from "@rocket.chat/fuselage";
+import { Table } from "@rocket.chat/fuselage";
 import "@rocket.chat/icons/dist/rocketchat.css";
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-} from "react-router-dom";
 
 export default function ReminderRow() {
   return (

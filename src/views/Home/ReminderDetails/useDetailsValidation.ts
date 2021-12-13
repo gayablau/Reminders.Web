@@ -1,26 +1,33 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import moment from "moment";
 
-type DetailsForm = { header: string; time: number };
+type DetailsForm = { header: string; time: string; date: string };
 
-export const useDetailsValidation = (initialValue: DetailsForm) => {
-  const [detailsValid, setdetailsValid] = useState(false);
-  const [headerValid, setHeaderValid] = useState(initialValue.header);
-  const [timeValid, setTimeValid] = useState(initialValue.time);
+export const useDetailsValidation = (Input: DetailsForm) => {
+  const [detailsValid, setDetailsValid] = useState(false);
+  const [header, setHeaderValid] = useState(Input.header);
+  const [time, setTimeValid] = useState(Input.time);
+  const [date, setDateValid] = useState(Input.date);
+
+  const validTimeInput = useMemo((): boolean => {
+    return (
+      moment().format("YYYY-MM-DD") === date &&
+      (moment(time, "HH:mm").format("HH") < moment().format("HH") ||
+        (moment(time, "HH:mm").format("HH") === moment().format("HH") &&
+          moment(time, "HH:mm").format("mm") < moment().format("mm")))
+    );
+  }, [date, time]);
+
+  const validHeaderInput = useMemo((): boolean => {
+    console.log(header);
+    return header.length > 0;
+  }, [header]);
 
   useEffect(() => {
-    function handleUserInput() {
-      console.log("before " + detailsValid)
-      return (
-        Math.round(moment().valueOf() / 1000 - timeValid / 1000) > 0 &&
-        headerValid.length > 0
-      );
-    }
-    setdetailsValid(handleUserInput);
-    console.log("after " + detailsValid)
-  }, [timeValid, headerValid]);
+    setDetailsValid(!validTimeInput && validHeaderInput);
+  }, [validTimeInput, validHeaderInput]);
 
-  return { detailsValid, setHeaderValid, setTimeValid };
+  return { detailsValid, setHeaderValid, setTimeValid, setDateValid };
 };
 
 export default useDetailsValidation;

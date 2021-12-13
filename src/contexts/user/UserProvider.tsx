@@ -29,7 +29,6 @@ export default function UserProvider({ children } : PropsWithChildren<{}>) {
         const username = localStorage.getItem('username');
 
         if (userId !== null && username !== null) {
-            console.log("backround login")
             handleBackroundLogin(userId, username)
         }
     }, [history, socket])
@@ -56,22 +55,28 @@ export default function UserProvider({ children } : PropsWithChildren<{}>) {
         }))   
     }
 
-    const handleChangeUsername = (newUsername : string, onSuccess: () => void) => {
+    const handleChangeUsername = (newUsername : string, onSuccess: () => void, onFailure: () => void) => {
         socket.once("changeUsername", (isChanged) => {
             console.log(isChanged)
             if(isChanged) {
                 changeUsername(newUsername)
                 onSuccess()
             }
+            else {
+                onFailure()
+            }
         })
         socket.emit("changeUsernameIfAble", newUsername);
     }
 
-    const handleLogin = (username: string, password: string, onSuccess: () => void) => {
+    const handleLogin = (username: string, password: string, onSuccess: () => void, onFailure: () => void) => {
         socket.once("userId", (userId) => {
             if (userId) {
                 login({userId, username})
                 onSuccess()
+            }
+            else {
+                onFailure()
             }
         })
         socket.emit("connectUser", JSON.stringify({username, password}));

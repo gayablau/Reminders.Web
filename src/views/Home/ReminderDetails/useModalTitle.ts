@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Reminder } from "../Types/ReminderType";
+import { useState, useEffect } from "react";
+import { Reminder } from "../../../Types/ReminderType";
 
 export const useModalTitle = (reminder: Reminder | undefined) => {
   const [modalTitle, setModalTitle] = useState("");

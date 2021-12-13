@@ -1,31 +1,10 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import "../RemindersList.css";
-import {
-  Tile,
-  InputBox,
-  Button,
-  Icon,
-  Table,
-  Modal,
-  ButtonGroup,
-  TextInput,
-} from "@rocket.chat/fuselage";
+import { Icon, Table } from "@rocket.chat/fuselage";
 import "@rocket.chat/icons/dist/rocketchat.css";
 import { useSocket } from "../../../hooks/useSocket";
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-} from "react-router-dom";
 import { Reminder } from "../../../Types/ReminderType";
-import { type } from "os";
 import moment from "moment";
-import { MouseEventHandler } from "react";
-import { useModal } from "../../../../src/hooks/useModal";
-import ReminderDetails from "../ReminderDetails/ReminderDetails";
 
 type RowProps = {
   reminder: Reminder;
@@ -44,7 +23,7 @@ export function ReminderRow(props: RowProps) {
   };
 
   return (
-    <Table.Row
+    <Table.Row className="row"
       onClick={() => props.setModalIsOpenToTrueWithId(props.reminder.id)}
     >
       <Table.Cell
@@ -54,9 +33,7 @@ export function ReminderRow(props: RowProps) {
         }}
         align="center"
       >
-        <div className="icon-delete">
-          <Icon name="trash"></Icon>
-        </div>
+        <Icon color="red" name="trash"></Icon>
       </Table.Cell>
       <Table.Cell align="center">{props.reminder.description}</Table.Cell>
       <Table.Cell align="center">
@@ -73,4 +50,3 @@ export function ReminderRow(props: RowProps) {
 }
 
 export const MemoizedRow = React.memo(ReminderRow);
-
