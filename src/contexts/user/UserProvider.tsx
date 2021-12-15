@@ -1,115 +1,99 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
-import { useSocket } from '../../hooks/useSocket';
-import {User, UserContext} from './LoggedInUser';
+import React, { PropsWithChildren, useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import { useSocket } from "../../hooks/useSocket";
+import { User, UserContext } from "./LoggedInUser";
+import { changeUsername, login, logout } from "./functions/UserChange";
 
 const userState = {
-    userId : '',
-    username : ''
-}
+  userId: "",
+  username: "",
+};
 
-export default function UserProvider({ children } : PropsWithChildren<{}>) {
-    const [user, setUser] = useState(userState);
-    const {socket} = useSocket();
-    const history = useHistory();
+export default function UserProvider({ children }: PropsWithChildren<{}>) {
+  const [user, setUser] = useState(userState);
+  const { socket } = useSocket();
+  const history = useHistory();
 
-    useEffect(() => {
-
-        const handleBackroundLogin = (userId: string, username: string) => {
-            socket.once("userId", (userId) => {
-                if(userId) {
-                    loginInBackround({userId, username})
-                    setUser({userId, username});
-                }
-            })
-            socket.emit("connectUserInBackround", JSON.stringify({userId, username}));
+  useEffect(() => {
+    const handleBackroundLogin = (userId: string) => {
+      socket.once("username", (username) => {
+        console.log("username " + username);
+        if (username) {
+          login({ userId, username }, setUser);
         }
+      });
+      socket.emit("connectUserInBackround", userId);
+    };
 
-        const userId = localStorage.getItem('userId');
-        const username = localStorage.getItem('username');
+    const userId = localStorage.getItem("userId");
 
-        if (userId !== null && username !== null) {
-            handleBackroundLogin(userId, username)
-        }
-    }, [history, socket])
+    socket.on("onChangeUsername", (user) => {
+      changeUsername(user, setUser);
+    });
 
-    const login = (user: User) => {
-        localStorage.setItem('userId', user.userId)
-        localStorage.setItem('username', user.username)
-        setUser(prevState => ({
-            ...prevState, ...user
-        }))
+    if (userId !== null) {
+      handleBackroundLogin(userId);
     }
+  }, [history, socket]);
 
-    const loginInBackround = (user: User) => {
-        console.log(user)
-        setUser(prevState => ({
-            ...prevState, ...user
-        }))
+  const isLoggedIn = (): boolean => {
+    if (user.userId !== "") {
+      return true;
     }
+    return false;
+  };
 
-    const changeUsername = (username: string) => {
-        localStorage.setItem('username', username)
-        setUser(prevState => ({
-            ...prevState, username
-        }))   
-    }
+  const handleChangeUsername = (
+    newUsername: string,
+    onSuccess: () => void,
+    onFailure: () => void
+  ) => {
+    socket.once("changeUsername", (isChanged) => {
+      console.log(isChanged);
+      if (isChanged) {
+        onSuccess();
+      } else {
+        onFailure();
+      }
+    });
+    socket.emit("changeUsernameIfAble", newUsername);
+  };
 
-    const handleChangeUsername = (newUsername : string, onSuccess: () => void, onFailure: () => void) => {
-        socket.once("changeUsername", (isChanged) => {
-            console.log(isChanged)
-            if(isChanged) {
-                changeUsername(newUsername)
-                onSuccess()
-            }
-            else {
-                onFailure()
-            }
-        })
-        socket.emit("changeUsernameIfAble", newUsername);
-    }
+  const handleLogin = (
+    username: string,
+    password: string,
+    onSuccess: () => void,
+    onFailure: () => void
+  ) => {
+    socket.once("userId", (userId) => {
+      if (userId) {
+        login({ userId, username }, setUser);
+        onSuccess();
+      } else {
+        onFailure();
+      }
+    });
+    socket.emit("connectUser", JSON.stringify({ username, password }));
+  };
 
-    const handleLogin = (username: string, password: string, onSuccess: () => void, onFailure: () => void) => {
-        socket.once("userId", (userId) => {
-            if (userId) {
-                login({userId, username})
-                onSuccess()
-            }
-            else {
-                onFailure()
-            }
-        })
-        socket.emit("connectUser", JSON.stringify({username, password}));
-    }
-
-    const handleLogout = () => {
-        socket.once("onLogout", () => {
-            logout()
-        })
-        socket.emit("logout");
-    }
-
-    const logout = () => {
-        localStorage.removeItem('userId')
-        localStorage.removeItem('username')
-        setUser({
-            userId : "",
-            username : ""
-        })
-    }
-
-    const isLoggedIn = () : boolean => {
-        if (user.userId !== "") {
-            return true
-        }
-        return false
-    }
-
+  const handleLogout = () => {
+    socket.once("onLogout", () => {
+      logout(setUser);
+    });
+    socket.emit("logout");
+  };
 
   return (
-    <UserContext.Provider value={{user, handleLogin, handleLogout, handleChangeUsername, isLoggedIn}}>
+    <UserContext.Provider
+      value={{
+        user,
+        handleLogin,
+        handleLogout,
+        handleChangeUsername,
+        isLoggedIn,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
 }
-

@@ -4,7 +4,7 @@ import { Table } from "@rocket.chat/fuselage";
 import "@rocket.chat/icons/dist/rocketchat.css";
 import { MemoizedRow } from "./ReminderRow";
 import TableHead from "./TableHead";
-import { Reminder } from "../../../Types/ReminderType";
+import { Reminder } from "../../../Types/Reminder";
 import { RemindersContext } from "../../../contexts/reminders/RemindersContext";
 
 type TableProps = {
@@ -13,6 +13,7 @@ type TableProps = {
 
 export function RemindersTable({ openModal }: TableProps) {
   const { reminders } = useContext(RemindersContext);
+
   return (
     <Table
       marginBlockEnd="20px"
@@ -27,7 +28,7 @@ export function RemindersTable({ openModal }: TableProps) {
         {reminders.map((item) => (
           <MemoizedRow
             key={item.id}
-            setModalIsOpenToTrueWithId={() => openModal(item.id)}
+            openModalWithId={() => openModal(item.id)}
             reminder={item}
           />
         ))}

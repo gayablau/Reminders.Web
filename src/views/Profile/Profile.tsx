@@ -1,56 +1,73 @@
-import { useContext, useState } from "react";
-import { Tile, Button, Icon, TextInput } from "@rocket.chat/fuselage";
+import { useContext, useState, useEffect } from "react";
+import {
+  Tile,
+  Button,
+  Icon,
+  TextInput,
+  Box,
+  FieldGroup,
+  Field,
+} from "@rocket.chat/fuselage";
 import "@rocket.chat/icons/dist/rocketchat.css";
 import { UserContext } from "../../contexts/user/LoggedInUser";
 import { useHistory } from "react-router-dom";
 import useInput from "../../hooks/useInput";
-import useProfileValidation from "./useProfileValidation";
 
 export default function Profile() {
-  const { user } = useContext(UserContext);
-  const [username, setUsername] = useInput(user.username);
-  const { handleChangeUsername } = useContext(UserContext);
+  const { user, handleChangeUsername } = useContext(UserContext);
+  const [username, setUsernameInput, setUsername] = useInput(
+    user.username,
+    () => errorMessage && setErrorMessage("")
+  );
   const history = useHistory();
   const goToReminders = () => history.push("/reminders");
-  const { profileValid, setUsernameValid } = useProfileValidation(
-    username as string
-  );
   const [errorMessage, setErrorMessage] = useState("");
 
+  const setError = () => {
+    setErrorMessage("Error changing username");
+  };
+
+  useEffect(() => {
+    setUsername(user.username);
+  }, [user.username, setUsername]);
+
   return (
-    <Tile borderRadius="1vh" position="absolute" marginBlockStart="20vh">
+    <Tile className="screen-box">
       <Icon
         display="flex"
         alignItems="start"
-        style={{ WebkitTransform: "scaleX(-1)" }}
-        transform="scaleX(-1)"
         name="arrow-back"
         onClick={goToReminders}
       ></Icon>
-      <h1>פרטי משתמש</h1>
-      <TextInput
-        className="input-box"
-        placeholder="שם משתמש"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setUsername(e);
-          setUsernameValid(e.target.value);
-        }}
-        value={username}
-      />
-      {errorMessage && <p> {errorMessage} </p>}
-      <Button
-        marginBlockStart="10px"
-        alignSelf="center"
-        primary
-        disabled={!profileValid}
-        onClick={() =>
-          handleChangeUsername(username, goToReminders, () => {
-            setErrorMessage("Error changing username");
-          })
-        }
-      >
-        שמור
-      </Button>
+      <Box display="flex" flexDirection="column" margin="10px">
+        <Box is="h1" mbe="x16">
+          פרטי משתמש
+        </Box>
+        <FieldGroup>
+          <TextInput
+            width="200px"
+            alignSelf="center"
+            className="input-box"
+            placeholder="שם משתמש"
+            onChange={setUsernameInput}
+            value={username}
+          />
+          {errorMessage && (
+            <Field.Error margin="5px"> {errorMessage} </Field.Error>
+          )}
+          <Button
+            marginBlockStart="10px"
+            alignSelf="center"
+            primary
+            disabled={!username.length || !!errorMessage}
+            onClick={() =>
+              handleChangeUsername(username, goToReminders, setError)
+            }
+          >
+            שמור
+          </Button>
+        </FieldGroup>
+      </Box>
     </Tile>
   );
 }

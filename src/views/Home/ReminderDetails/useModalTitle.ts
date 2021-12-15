@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Reminder } from "../../../Types/ReminderType";
+import { Reminder } from "../../../Types/Reminder";
 
 export const useModalTitle = (reminder: Reminder | undefined) => {
   const [modalTitle, setModalTitle] = useState("");
@@ -12,7 +12,7 @@ export const useModalTitle = (reminder: Reminder | undefined) => {
     }
   }, [reminder]);
 
-  return [modalTitle, setModalTitle];
+  return modalTitle;
 };
 
 export default useModalTitle;

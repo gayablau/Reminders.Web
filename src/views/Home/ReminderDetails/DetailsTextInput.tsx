@@ -11,15 +11,18 @@ type DetailsTextInputProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export default function DetailsTextInput(props: DetailsTextInputProps) {
+export default function DetailsTextInput({
+  value,
+  onChange,
+  placeholder,
+  type,
+}: DetailsTextInputProps) {
   return (
     <TextInput
-      margin="5px"
-      value={props.value}
-      onChange={props.onChange}
-      className="input-box"
-      placeholder={props.placeholder}
-      type={props.type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      type={type}
       min={moment().format("YYYY-MM-DD")}
     />
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { Dispatch, SetStateAction } from "react";
-import { Reminder } from "../../Types/ReminderType";
+import { Reminder } from "../../Types/Reminder";
 
 const reminders: Reminder[] = [];
 type RemindersContextType = {

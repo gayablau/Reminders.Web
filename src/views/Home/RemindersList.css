@@ -1,36 +1,7 @@
-body {
-  position: relative;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-around;
-  flex-direction: row;
-}
-
-Button {
+button {
   width: fit-content;
 }
 
-.wrap-table {
-  height: 250px;
-  overflow: auto;
-}
-
-.tile-header {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-}
-
-h2 {
-  padding: 3px;
-}
-
-tbody {
-  overflow-y: scroll;
-}
-
 tbody > tr.rcx-box.rcx-box--full.rcx-table__row:hover {
-  background-color: #e4e4e4
+  background-color: #e6e6e6;
 }

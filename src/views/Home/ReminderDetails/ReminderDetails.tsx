@@ -1,11 +1,11 @@
 import "../RemindersList.css";
-import { Button, Modal } from "@rocket.chat/fuselage";
+import { Button, Modal, FieldGroup, Margins } from "@rocket.chat/fuselage";
 import "@rocket.chat/icons/dist/rocketchat.css";
 import { useSocket } from "../../../hooks/useSocket";
 import { useModalTitle } from "./useModalTitle";
-import { Reminder } from "../../../Types/ReminderType";
+import { Reminder } from "../../../Types/Reminder";
 import DetailsTextInput from "./DetailsTextInput";
-import useReminder from "./useReminder";
+import useReminder, { createReminderFromInput } from "./useReminder";
 import useDetailsValidation from "./useDetailsValidation";
 
 type ReminderDetailsProps = {
@@ -24,74 +24,83 @@ export default function ReminderDetails(props: ReminderDetailsProps) {
     setTime,
     date,
     setDate,
-    createReminderFromInput,
+    createdAt,
+    id,
+    user,
   } = useReminder(props.reminder);
-  const [modalTitle] = useModalTitle(props.reminder);
-  const { detailsValid, setHeaderValid, setTimeValid, setDateValid } =
-    useDetailsValidation({
-      header: header,
-      time: time,
-      date: date,
-    });
+  const modalTitle = useModalTitle(props.reminder);
+  const detailsValid = useDetailsValidation({
+    header,
+    time,
+    date,
+  });
 
-  const clickAdd = () => {
+  const onSubmit = () => {
+    const reminder = createReminderFromInput({
+      id,
+      header,
+      description,
+      date,
+      createdAt,
+      time,
+      user,
+    });
     if (props.reminder !== undefined) {
-      editReminder(createReminderFromInput());
+      editReminder(reminder);
     } else {
-      addReminder(createReminderFromInput());
+      addReminder(reminder);
     }
     props.handleClose();
   };
 
   return (
-    <Modal position="fixed" marginBlockStart="5vh" width="80vh">
+    <Modal position="fixed" width="300px" zIndex="9999">
       <Modal.Close
         style={{ marginRight: "5px", marginLeft: "auto", paddingTop: "5px" }}
         onClick={props.handleClose}
       />
-      <Modal.Header>
+      <Modal.Header margin="10px">
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
       <Modal.Content>
-        <DetailsTextInput
-          value={header}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setHeader(e);
-            setHeaderValid(e.target.value);
-          }}
-          placeholder="שם"
-          type="text"
-        />
-        <DetailsTextInput
-          value={description}
-          onChange={setDescription}
-          placeholder="תיאור"
-          type="text"
-        />
-        <DetailsTextInput
-          value={date}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setDate(e);
-            setDateValid(e.target.value);
-          }}
-          placeholder="תאריך"
-          type="date"
-        />
-        <DetailsTextInput
-          value={time}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setTime(e);
-            setTimeValid(e.target.value);
-          }}
-          placeholder="שעה"
-          type="time"
-        />
+        <FieldGroup>
+          <Margins blockEnd="x8">
+            <DetailsTextInput
+              value={header}
+              onChange={setHeader}
+              placeholder="שם"
+              type="text"
+            />
+            <DetailsTextInput
+              value={description}
+              onChange={setDescription}
+              placeholder="תיאור"
+              type="text"
+            />
+            <DetailsTextInput
+              value={date}
+              onChange={setDate}
+              placeholder="תאריך"
+              type="date"
+            />
+            <DetailsTextInput
+              value={time}
+              onChange={setTime}
+              placeholder="שעה"
+              type="time"
+            />
+            <Button
+              marginBlockStart="7px"
+              marginBlockEnd="20px"
+              onClick={onSubmit}
+              disabled={!detailsValid}
+              primary
+            >
+              שמור
+            </Button>
+          </Margins>
+        </FieldGroup>
       </Modal.Content>
-      <Modal.Footer>
-        <Button onClick={clickAdd} disabled={!detailsValid} primary>
-          הוסף
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 }

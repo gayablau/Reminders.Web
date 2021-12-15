@@ -5,7 +5,7 @@ import App from "./App";
 import { SocketProvider } from "./contexts/socket/SocketProvider";
 import reportWebVitals from "./reportWebVitals";
 import UserProvider from "./contexts/user/UserProvider";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 ReactDOM.render(
   <React.StrictMode>
     <Router>

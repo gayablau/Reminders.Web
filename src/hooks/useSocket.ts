@@ -1,26 +1,25 @@
-import { type } from "os";
-import { useContext } from "react"
-import { SocketContext } from "../contexts/socket/SocketContext"
-import { Reminder } from "../Types/ReminderType";
+import { useContext } from "react";
+import { SocketContext } from "../contexts/socket/SocketContext";
+import { Reminder } from "../Types/Reminder";
 
 export const useSocket = () => {
-    const socket = useContext(SocketContext);
+  const socket = useContext(SocketContext);
 
-    const addReminder = (reminder : Reminder) => {
-        socket?.emit("createReminder", JSON.stringify(reminder))
-    }
+  if (!socket) {
+    throw Error("Cannot use socket outside of context");
+  }
 
-    const editReminder = (reminder : Reminder) => {
-        socket?.emit("editReminder", JSON.stringify(reminder))
-    }
+  const addReminder = (reminder: Reminder) => {
+    socket.emit("createReminder", JSON.stringify(reminder));
+  };
 
-    const deleteReminder = (reminder : Reminder) => {
-        socket?.emit("deleteReminder", JSON.stringify(reminder))
-    }
+  const editReminder = (reminder: Reminder) => {
+    socket.emit("editReminder", JSON.stringify(reminder));
+  };
 
-    if(!socket) {
-        throw Error("Cannot use socket outside of context");
-    }
+  const deleteReminder = (reminder: Reminder) => {
+    socket.emit("deleteReminder", JSON.stringify(reminder));
+  };
 
-    return {socket, addReminder, editReminder, deleteReminder};
-}
+  return { socket, addReminder, editReminder, deleteReminder };
+};

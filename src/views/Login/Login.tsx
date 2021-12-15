@@ -1,6 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Login.css";
-import { Tile, Button, TextInput, PasswordInput } from "@rocket.chat/fuselage";
+import {
+  Tile,
+  Button,
+  TextInput,
+  PasswordInput,
+  FieldGroup,
+  Field,
+} from "@rocket.chat/fuselage";
 import "@rocket.chat/icons/dist/rocketchat.css";
 import logo from "./logo.jpg";
 import { useHistory } from "react-router-dom";
@@ -15,44 +22,39 @@ export default function Login() {
   const { handleLogin } = useContext(UserContext);
   const [errorMessage, setErrorMessage] = useState("");
 
+  useEffect(() => {
+    setErrorMessage("");
+  }, [username, password]);
+
+  const onLoginFailed = () => setErrorMessage("Error login");
+
   return (
     <>
       <img src={logo} className="App-logo" alt="logo" />
-      <Tile
-        marginBlockStart="20px"
-        style={{
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, 22%)",
-        }}
-        position="absolute"
-        borderRadius="1vh"
-      >
-        <TextInput
-          mb="x16"
-          value={username}
-          onChange={setUsername}
-          className="input-box"
-          placeholder="שם משתמש"
-        />
-        <PasswordInput
-          value={password}
-          onChange={setPassword}
-          className="input-box"
-          placeholder="סיסמא"
-        />
-        {errorMessage && <p> {errorMessage} </p>} 
-        <Button
-          mb="x16"
-          onClick={() =>
-            handleLogin(username, password, goToReminders, () => {
-              setErrorMessage("Error login");
-            })
-          }
-          primary
-        >
-          התחבר
-        </Button>
+      <Tile is="form" className="screen-box" w="35vw">
+        <FieldGroup>
+          <TextInput
+            autoComplete="username"
+            value={username}
+            onChange={setUsername}
+            placeholder="שם משתמש"
+          />
+          <PasswordInput
+            autoComplete="current-password"
+            value={password}
+            onChange={setPassword}
+            placeholder="סיסמא"
+          />
+          {errorMessage && <Field.Error> {errorMessage} </Field.Error>}
+          <Button
+            onClick={() =>
+              handleLogin(username, password, goToReminders, onLoginFailed)
+            }
+            primary
+          >
+            התחבר
+          </Button>
+        </FieldGroup>
       </Tile>
     </>
   );

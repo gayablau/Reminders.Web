@@ -3,12 +3,12 @@ import "../RemindersList.css";
 import { Icon, Table } from "@rocket.chat/fuselage";
 import "@rocket.chat/icons/dist/rocketchat.css";
 import { useSocket } from "../../../hooks/useSocket";
-import { Reminder } from "../../../Types/ReminderType";
+import { Reminder } from "../../../Types/Reminder";
 import moment from "moment";
 
 type RowProps = {
   reminder: Reminder;
-  setModalIsOpenToTrueWithId: (id: Reminder["id"]) => void;
+  openModalWithId: (id: Reminder["id"]) => void;
 };
 
 export function ReminderRow(props: RowProps) {
@@ -22,28 +22,28 @@ export function ReminderRow(props: RowProps) {
     return moment(milliSec).format("DD/MM/YYYY");
   };
 
+  const clickTrash = (e: React.MouseEvent<HTMLOrSVGElement, MouseEvent>) => {
+    e.stopPropagation();
+    deleteReminder(props.reminder);
+  };
+
   return (
-    <Table.Row className="row"
-      onClick={() => props.setModalIsOpenToTrueWithId(props.reminder.id)}
+    <Table.Row
+      className="row"
+      onClick={() => props.openModalWithId(props.reminder.id)}
     >
-      <Table.Cell
-        onClick={(e) => {
-          e.stopPropagation();
-          deleteReminder(props.reminder);
-        }}
-        align="center"
-      >
-        <Icon color="red" name="trash"></Icon>
-      </Table.Cell>
-      <Table.Cell align="center">{props.reminder.description}</Table.Cell>
-      <Table.Cell align="center">
-        {milliSecToTime(props.reminder.time)}
+      <Table.Cell is="th" scope="row">
+        {props.reminder.header}
       </Table.Cell>
       <Table.Cell align="center">
         {milliSecToDate(props.reminder.time)}
       </Table.Cell>
-      <Table.Cell is="th" scope="row">
-        {props.reminder.header}
+      <Table.Cell align="center">
+        {milliSecToTime(props.reminder.time)}
+      </Table.Cell>
+      <Table.Cell align="center">{props.reminder.description}</Table.Cell>
+      <Table.Cell onClick={clickTrash} align="center">
+        <Icon color="red" name="trash"></Icon>
       </Table.Cell>
     </Table.Row>
   );
